@@ -3,7 +3,8 @@
 ## Database Schema Design
 
 `<insert database schema design here>`
-![Alt text](../AirBnBPSchema.jpg "Optional title")
+
+![AirBnBPSchema](https://user-images.githubusercontent.com/91810065/196814249-d332e839-9e08-4c81-a672-c98e17e2e23e.png)
 
 ## API Documentation
 
