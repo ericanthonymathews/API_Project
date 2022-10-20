@@ -4,7 +4,8 @@
 
 `<insert database schema design here>`
 
-![AirBnBPSchema](https://user-images.githubusercontent.com/91810065/196814249-d332e839-9e08-4c81-a672-c98e17e2e23e.png)
+
+![image](https://user-images.githubusercontent.com/91810065/197064950-c564530c-a2e1-4d29-b129-24d06b5346f5.png)
 
 ## API Documentation
 
