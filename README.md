@@ -5,7 +5,7 @@
 `<insert database schema design here>`
 
 
-![image](https://user-images.githubusegrcontent.com/91810065/197064950-c564530c-a2e1-4d29-b129-24d06b5346f5.png)
+![image](https://user-images.githubusercontent.com/91810065/197064950-c564530c-a2e1-4d29-b129-24d06b5346f5.png)
 
 ## API Documentation
 
