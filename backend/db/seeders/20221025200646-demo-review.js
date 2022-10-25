@@ -12,37 +12,37 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('Bookings', [
-      {
-        spotId: 1,
-        userId: 2,
-        startDate: '12-22-2023',
-        endDate: '12-23-2023',
-      },
+    return queryInterface.bulkInsert('Reviews', [
       {
         spotId: 1,
         userId: 3,
-        startDate: '12-24-2023',
-        endDate: '12-25-2023',
+        review: 'Loved the place. Had a cozy atmosphere.',
+        stars: 5
+      },
+      {
+        spotId: 1,
+        userId: 2,
+        review: 'LIKED the place. Looking for something more.',
+        stars: 3
+      },
+      {
+        spotId: 2,
+        userId: 2,
+        review: 'Could see myself living here. Had a blast',
+        stars: 4
       },
       {
         spotId: 2,
         userId: 1,
-        startDate: '01-22-2023',
-        endDate: '02-23-2023',
+        review: 'Did not sleep. The bed. OMG who lives here?',
+        stars: 0
       },
       {
         spotId: 3,
-        userId: 5,
-        startDate: '12-22-2023',
-        endDate: '12-23-2023',
+        userId: 2,
+        review: 'Eh... this place had no electricity.',
+        stars: 2
       },
-      {
-        spotId: 4,
-        userId: 4,
-        startDate: '12-22-2023',
-        endDate: '12-23-2023',
-      }
     ], {});
   },
 
@@ -54,7 +54,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Bookings', {
+    return queryInterface.bulkDelete('Reviews', {
       id: { [Op.in]: [1, 2, 3, 4, 5] }
     }, {});
   }
