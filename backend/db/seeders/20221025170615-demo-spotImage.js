@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('spotImages', [
+    return queryInterface.bulkInsert('SpotImages', [
       {
         spotId: 1,
         url: 'https://picsum.photos/id/237/200/300',
@@ -49,7 +49,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     const Op = Sequelize.Op;
-    return queryInterface.bulkDelete('Users', {
+    return queryInterface.bulkDelete('SpotImages', {
       url: { [Op.in]: ['https://picsum.photos/id/237/200/300', 'https://picsum.photos/id/238/200/300', 'https://picsum.photos/id/239/200/300', 'https://picsum.photos/id/240/200/300', 'https://picsum.photos/id/241/200/300'] }
     }, {});
   }
