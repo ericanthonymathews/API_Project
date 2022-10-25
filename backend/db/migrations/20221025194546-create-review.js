@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,12 +21,12 @@ module.exports = {
         references: { model: 'Users' },
         onDelete: 'CASCADE'
       },
-      startDate: {
-        type: Sequelize.DATE,
+      review: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      endDate: {
-        type: Sequelize.DATE,
+      stars: {
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       createdAt: {
@@ -42,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bookings');
+    await queryInterface.dropTable('Reviews');
   }
 };
