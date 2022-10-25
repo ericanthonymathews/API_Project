@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'spotImage',
+    modelName: 'SpotImage',
   });
-  return spotImage;
+  return SpotImage;
 };
