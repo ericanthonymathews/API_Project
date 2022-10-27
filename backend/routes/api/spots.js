@@ -49,6 +49,7 @@ router.get('/', async (req, res) => {
 
   res.json({ 'Spots': allSpots });
 });
+
 router.post(
   '/',
   requireAuth,
@@ -77,10 +78,17 @@ router.post(
       description,
       price
     });
-    const result = newSpot.toJSON()
 
     res.json({
-      ...result
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
     });
   }
 );
@@ -113,7 +121,7 @@ router.get(
         numberOfReviews++;
         totalStars += review.stars;
       });
-      if (totalStars) {
+      if (numberOfReviews) {
         spot.avgRating = numberOfReviews / totalStars;
       } else {
         spot.avgRating = 'N/A';
@@ -134,6 +142,64 @@ router.get(
     res.json({ 'Spots': allSpots });
   }
 );
+router.get('/:spotId', async (req, res) => {
+  const { spotId } = req.params;
+  const spotInfo = await Spot.findByPk(spotId, {
+    include: [
+      {
+        model: SpotImage
+      },
+      {
+        model: Review
+      },
+      {
+        model: User
+      }
+    ]
+  });
+
+  let spot = spotInfo.toJSON();
+
+
+
+  let numberOfReviews = 0;
+  let totalStars = 0;
+  spot.Reviews.forEach(review => {
+    numberOfReviews++;
+    totalStars += review.stars;
+  });
+  if (numberOfReviews) {
+    spot.avgRating = numberOfReviews / totalStars;
+    spot.numReviews = numberOfReviews;
+  } else {
+    spot.avgRating = 'N/A';
+    spot.numReviews = numberOfReviews;
+  }
+  delete spot.Reviews;
+  spot.SpotImages.forEach(spotImage => {
+    delete spotImage.spotId;
+    delete spotImage.createdAt;
+    delete spotImage.updatedAt;
+  });
+  const ownerInstance = await User.scope('currentUser').findByPk(spot.User.id);
+  const owner = ownerInstance.toJSON();
+  spot.Owner = {};
+  spot.Owner.id = owner.id;
+  spot.Owner.firstName = owner.firstName;
+  spot.Owner.lastName = owner.lastName;
+  delete spot.User;
+  // let owner = ownerInstance.toJSON();
+  // let ownerInfo = {};
+  // ownerInfo.id = spot.Users.id;
+  // ownerInfo.firstName = spot.Users.firstName;
+  // ownerInfo.lastName = spot.Users.lastName;
+  // spot.Owner = ownerInfo;
+
+  // delete model.Users;
+
+
+  res.json(spot);
+});
 
 
 module.exports = router;
