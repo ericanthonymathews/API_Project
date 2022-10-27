@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     price: {
       type: DataTypes.DECIMAL,
       allowNull: false
@@ -53,6 +61,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {
+      attributes: {
+        exclude: []
+      }
+    },
+    scopes: {
+      newSpot: {
+        attributes: { exclude: ["createdAt", "updatedAt"] }
+      }
+    }
   });
   return Spot;
 };
