@@ -1,7 +1,7 @@
 const express = require('express')
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Review, Spot, SpotImage, User } = require('../../db/models');
+const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -217,14 +217,7 @@ router.get('/:spotId', async (req, res) => {
   spot.Owner.firstName = owner.firstName;
   spot.Owner.lastName = owner.lastName;
   delete spot.User;
-  // let owner = ownerInstance.toJSON();
-  // let ownerInfo = {};
-  // ownerInfo.id = spot.Users.id;
-  // ownerInfo.firstName = spot.Users.firstName;
-  // ownerInfo.lastName = spot.Users.lastName;
-  // spot.Owner = ownerInfo;
 
-  // delete model.Users;
 
 
   return res.json(spot);
@@ -293,6 +286,36 @@ router.delete(
         statusCode: 200
       });
     }
+  }
+);
+router.get(
+  '/:spotId/reviews',
+  async (req, res) => {
+    const { spotId } = req.params;
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+      res.status(404);
+      const err = {
+        message: 'Spot couldn\'t be found',
+        statusCode: 404
+      };
+      return res.json(err);
+    }
+    const reviewsList = await Review.findAll({
+      where: { spotId },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+          model: ReviewImage,
+          attributes: ['id', 'url']
+        }
+      ]
+    });
+
+    return res.json({ "Reviews": reviewsList })
   }
 );
 
