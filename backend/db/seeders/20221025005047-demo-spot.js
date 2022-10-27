@@ -19,6 +19,8 @@ module.exports = {
         city: 'Alhambra',
         state: 'California',
         country: 'United States',
+        name: 'Spanish Retreat',
+        description: 'A cozy home with everything to nurture a family',
         lat: 34.068352,
         lng: -118.148430,
         price: 200.00
@@ -29,6 +31,8 @@ module.exports = {
         city: 'Little Whinging',
         state: 'Surrey',
         country: 'England',
+        name: 'A cookie cutter home for muggles',
+        description: 'There is no magic to speak of here.',
         lat: 24.068352,
         lng: 118.148430,
         price: 250.00
@@ -39,6 +43,8 @@ module.exports = {
         city: 'Metropolis',
         state: 'New York',
         country: 'United States',
+        name: 'Super Lookout',
+        description: 'Great view with a balcony for any frequent fliers.',
         lat: 34.068352,
         lng: -98.148430,
         price: 100.00
@@ -49,6 +55,8 @@ module.exports = {
         city: 'Brooklyn',
         state: 'New York',
         country: 'United States',
+        name: 'The Other Side',
+        description: 'Tall ceilings, great views, good community.',
         lat: 34.068352,
         lng: -98.148430,
         price: 100.00
@@ -59,6 +67,8 @@ module.exports = {
         city: 'New York',
         state: 'New York',
         country: 'United States',
+        name: 'The Bank',
+        description: 'Indestructible, zombie-proof, everything else.',
         lat: 34.068352,
         lng: -98.148430,
         price: 500.00

@@ -34,6 +34,7 @@ const restoreUser = (req, res, next) => {
 
   return jwt.verify(token, secret, null, async (err, jwtPayload) => {
     if (err) {
+
       return next();
     }
 
@@ -58,6 +59,7 @@ const requireAuth = function (req, _res, next) {
   const err = new Error('Unauthorized');
   err.title = 'Unauthorized';
   err.errors = ['Unauthorized'];
+  err.message = 'Authentication required';
   err.status = 401;
   return next(err);
 };
