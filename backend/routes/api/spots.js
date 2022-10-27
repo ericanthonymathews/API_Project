@@ -3,6 +3,41 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth')
 // const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Review, Spot, SpotImage, User } = require('../../db/models');
 const router = express.Router();
+const { check } = require('express-validator');
+const { handleValidationErrors } = require('../../utils/validation');
+const validateEdit = [
+  check('address')
+    .exists({ checkFalsy: true })
+    .withMessage('Street address is required'),
+  check('city')
+    .exists({ checkFalsy: true })
+    .withMessage('City is required'),
+  check('state')
+    .exists({ checkFalsy: true })
+    .withMessage('State is required'),
+  check('country')
+    .exists({ checkFalsy: true })
+    .withMessage('Country is required'),
+  check('lat')
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Latitude is not valid'),
+  check('lng')
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Longitude is not valid'),
+  check('name')
+    .exists({ checkFalsy: true })
+    .isLength({ max: 50 })
+    .withMessage('Name must be less than 50 characters'),
+  check('description')
+    .exists({ checkFalsy: true })
+    .withMessage('Description is required'),
+  check('price')
+    .exists({ checkFalsy: true })
+    .withMessage('Price per day is required'),
+  handleValidationErrors
+];
 
 router.get('/', async (req, res) => {
   const spots = await Spot.findAll({
@@ -78,18 +113,8 @@ router.post(
       description,
       price
     });
-
-    res.json({
-      address,
-      city,
-      state,
-      country,
-      lat,
-      lng,
-      name,
-      description,
-      price
-    });
+    res.status(201);
+    res.json(newSpot);
   }
 );
 router.get(
@@ -157,10 +182,14 @@ router.get('/:spotId', async (req, res) => {
       }
     ]
   });
-
+  if (!spotInfo) {
+    let results = {};
+    results.message = 'Spot couldn\'t be found';
+    results.statusCode = 404;
+    res.status(404);
+    return res.json(results);
+  }
   let spot = spotInfo.toJSON();
-
-
 
   let numberOfReviews = 0;
   let totalStars = 0;
@@ -198,8 +227,86 @@ router.get('/:spotId', async (req, res) => {
   // delete model.Users;
 
 
-  res.json(spot);
+  return res.json(spot);
 });
+
+router.put(
+  '/:spotId',
+  [
+    requireAuth,
+    validateEdit
+  ],
+  async (req, res) => {
+    const { id } = req.user;
+    const { spotId } = req.params;
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const currentSpot = await Spot.findByPk(spotId);
+
+    if (!currentSpot) {
+      res.status(404);
+      const err = {
+        message: 'Spot couldn\'t be found',
+        statusCode: 404
+      }
+      return res.json(err);
+    }
+    const spot = currentSpot.toJSON();
+    if (Number(id) === Number(spot.ownerId)) {
+      currentSpot.address = address;
+      currentSpot.city = city;
+      currentSpot.state = state;
+      currentSpot.country = country;
+      currentSpot.lat = lat;
+      currentSpot.lng = lng;
+      currentSpot.name = name;
+      currentSpot.description = description;
+      currentSpot.price = price;
+
+      const result = await currentSpot.save();
+      res.status(200);
+      return res.json(result);
+    }
+
+  }
+)
+
+router.post(
+  '/:spotId/images',
+  requireAuth,
+  async (req, res) => {
+    const { id } = req.user;
+    const { spotId } = req.params;
+    const { url, preview } = req.body
+    const currentSpot = await Spot.findByPk(spotId, {
+      include: [
+        {
+          model: User
+        }
+      ]
+    });
+    if (currentSpot && Number(id) === Number(currentSpot.User.id)) {
+      const spot = currentSpot.toJSON();
+      const newImage = await currentSpot.createSpotImage({
+        url,
+        preview
+      });
+      const results = {};
+      const resultImage = newImage.toJSON();
+      results.id = resultImage.id;
+      results.url = resultImage.url;
+      results.preview = resultImage.preview;
+      res.status(201);
+      res.json(results);
+    } else {
+      res.status(404);
+      const err = {
+        message: 'Spot couldn\'t be found',
+        statusCode: 404
+      }
+      return res.json(err);
+    }
+  }
+);
 
 
 module.exports = router;
