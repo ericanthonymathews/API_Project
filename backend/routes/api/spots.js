@@ -38,6 +38,16 @@ const validateEdit = [
     .withMessage('Price per day is required'),
   handleValidationErrors
 ];
+const validateNewReview = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('City is required'),
+  handleValidationErrors
+];
 
 router.get('/', async (req, res) => {
   const spots = await Spot.findAll({
@@ -316,6 +326,52 @@ router.get(
     });
 
     return res.json({ "Reviews": reviewsList })
+  }
+);
+
+router.post(
+  '/:spotId/reviews',
+  [
+    requireAuth,
+    validateNewReview
+  ],
+  async (req, res) => {
+    const { id } = req.user;
+    const { spotId } = req.params;
+    const { review, stars } = req.body;
+    const spotToReview = await Spot.findByPk(spotId);
+    if (!spotToReview) {
+      res.status(404);
+      const err = {
+        message: 'Spot couldn\'t be found',
+        statusCode: 404
+      };
+      return res.json(err);
+    }
+    const oldReview = await Review.findOne({
+      where: {
+        spotId: spotId,
+        userId: id
+      }
+    });
+    if (oldReview) {
+      res.status(403);
+      const err = {
+        message: 'User already has a review for this spot',
+        statusCode: 403
+      };
+      return res.json(err);
+    }
+    const newReview = await spotToReview.createReview({
+      spotId,
+      userId: id,
+      review,
+      stars
+
+    });
+    res.status(201);
+    return res.json(newReview);
+
   }
 );
 
