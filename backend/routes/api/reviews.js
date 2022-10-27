@@ -4,7 +4,12 @@ const { Review, ReviewImage, Spot, SpotImage, User } = require('../../db/models'
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-
+const validateNewImage = [
+  check('url')
+    .exists({ checkFalsy: true })
+    .withMessage('Image url is required'),
+  handleValidationErrors
+];
 
 router.get(
   '/current',
@@ -63,6 +68,50 @@ router.get(
 
     }
     return res.json({ "Reviews": allReviews });
+  }
+);
+
+router.post(
+  '/:reviewId/images',
+  [
+    requireAuth,
+    validateNewImage
+  ],
+  async (req, res) => {
+    const { id } = req.user;
+    const { url } = req.body;
+    const { reviewId } = req.params;
+    const review = await Review.findByPk(reviewId, {
+      include: [
+        {
+          model: ReviewImage
+        }
+      ]
+    });
+    if (!review) {
+      res.status(404);
+      const err = {
+        message: 'Review couldn\'t be found',
+        statusCode: 404
+      };
+      return res.json(err);
+    }
+    const reviewInfo = review.toJSON();
+    if (reviewInfo.ReviewImages.length >= 10) {
+      res.status(403);
+      const err = {
+        message: 'Maximum number of images for this resource was reached',
+        statusCode: 403
+      };
+      return res.json(err);
+    }
+    const newReviewImage = await review.createReviewImage({ reviewId, url });
+    const results = newReviewImage.toJSON();
+    delete results.createdAt;
+    delete results.updatedAt;
+    delete results.reviewId;
+    res.status(200);
+    return res.json(results);
   }
 );
 

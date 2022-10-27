@@ -45,7 +45,7 @@ const validateNewReview = [
   check('stars')
     .exists({ checkFalsy: true })
     .isInt({ min: 1, max: 5 })
-    .withMessage('City is required'),
+    .withMessage('Stars must be an integer between 1 and 5'),
   handleValidationErrors
 ];
 
