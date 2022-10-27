@@ -77,17 +77,10 @@ router.post(
       description,
       price
     });
+    const result = newSpot.toJSON()
 
     res.json({
-      address,
-      city,
-      state,
-      country,
-      lat,
-      lng,
-      name,
-      description,
-      price
+      ...result
     });
   }
 );
