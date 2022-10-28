@@ -10,6 +10,16 @@ const validateNewImage = [
     .withMessage('Image url is required'),
   handleValidationErrors
 ];
+const validateNewReview = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer between 1 and 5'),
+  handleValidationErrors
+];
 
 router.get(
   '/current',
@@ -69,6 +79,68 @@ router.get(
     }
     return res.json({ "Reviews": allReviews });
   }
+);
+
+router.put(
+  '/:reviewId',
+  [
+    requireAuth,
+    validateNewReview
+  ],
+  async (req, res) => {
+    const { reviewId } = req.params;
+    const { id } = req.user;
+    const { review, stars } = req.body;
+    const reviewInstance = await Review.findByPk(reviewId);
+    if (!reviewInstance) {
+      res.status(404);
+      const err = {
+        message: 'Review couldn\'t be found',
+        statusCode: 404
+      };
+      return res.json(err)
+    }
+    const rev = reviewInstance.toJSON();
+    if (Number(rev.userId) === Number(id)) {
+      reviewInstance.review = review;
+      reviewInstance.stars = stars;
+
+      await reviewInstance.save();
+      return res.json(reviewInstance);
+    }
+  }
+);
+
+router.delete(
+  '/:reviewId',
+  requireAuth,
+  async (req, res) => {
+    const { reviewId } = req.params;
+    const { id } = req.user;
+
+    const reviewToDelete = await Review.findByPk(reviewId, {
+      where: {
+        userId: id
+      }
+    });
+
+    if (!reviewToDelete) {
+      res.status(404);
+      const err = {
+        message: "Review couldn't be found",
+        statusCode: 404
+      };
+      return res.json(err);
+    } else {
+      await reviewToDelete.destroy();
+      res.status(200);
+      res.json({
+        message: 'Successfully deleted',
+        statusCode: 200
+      });
+    }
+  }
+
 );
 
 router.post(
