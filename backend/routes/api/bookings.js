@@ -62,7 +62,8 @@ router.put(
 
     const bookingToEdit = await Booking.findOne({
       where: {
-        userId: id
+        userId: id,
+        id: bookingId
       }
     });
 
@@ -81,6 +82,7 @@ router.put(
     const end = new Date(endString).getTime();
     const presentString = new Date().toDateString();
     const present = new Date(presentString).getTime();
+
     if (end < start) {
       res.status(400);
       const err = {
@@ -146,6 +148,59 @@ router.put(
       return res.json(bookingToEdit);
     }
   }
+);
+
+router.delete(
+  '/:bookingId',
+  requireAuth,
+  async (req, res) => {
+    const { bookingId } = req.params;
+    const { id } = req.user;
+
+    const bookingToDelete = await Booking.findByPk(bookingId, {
+      include: [
+        {
+          model: Spot
+        }
+      ]
+    });
+
+    if (!bookingToDelete) {
+      res.status(404);
+      const err = {
+        message: "Booking couldn't be found",
+        status: 404
+      };
+      return res.json(err);
+    }
+
+
+    if (Number(id) === Number(bookingToDelete.userId) || Number(id) === Number(bookingToDelete.Spot.ownerId)) {
+      const startString = new Date(bookingToDelete.startDate).toDateString();
+      const start = new Date(startString).getTime();
+      const presentString = new Date().toDateString();
+      const present = new Date(presentString).getTime();
+      if (start < present) {
+        res.status(403);
+        return res.json({
+          message: "Bookings that have been started can't be deleted",
+          statusCode: 403
+        });
+      }
+      await bookingToDelete.destroy();
+      return res.json({
+        message: "Successfully deleted",
+        statusCode: 200
+      });
+    }
+    res.status(404);
+    res.json({
+      message: "Booking couldn't be found",
+      statusCode: 404
+    });
+
+  }
+
 );
 
 module.exports = router;
