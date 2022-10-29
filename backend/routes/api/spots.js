@@ -315,20 +315,20 @@ router.get(
       };
       res.json(err);
     }
-    // if (Number(spot.OwnerId) === Number(id)) {
-    //   const bookings = await Booking.findAll({
-    //     where: {
-    //       spotId: spot.id
-    //     },
-    //     include: [
-    //       {
-    //         model: User,
-    //         attributes: ['id', 'firstName', 'lastName']
-    //       }
-    //     ]
-    //   });
-    //   return res.json({ 'Bookings': bookings });
-    // }
+    if (Number(spot.OwnerId) === Number(id)) {
+      const bookings = await Booking.findAll({
+        where: {
+          spotId: spot.id
+        },
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+          }
+        ]
+      });
+      return res.json({ 'Bookings': bookings });
+    }
     const bookings = await Booking.findAll({
       where: {
         spotId: spot.id
