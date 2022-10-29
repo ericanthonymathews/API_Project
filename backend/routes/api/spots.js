@@ -405,11 +405,11 @@ router.post(
         // const bookingEnd = new Date(bookings[i].endDate).toDateString();
         const instanceStartString = new Date(bookings[i].startDate).toDateString();
         const instanceEndString = new Date(bookings[i].endDate).toDateString();
-        console.log(instanceStartString);
-        console.log(instanceEndString);
+        // console.log(instanceStartString);
+        // console.log(instanceEndString);
         const instanceStart = new Date(instanceStartString).getTime();
         const instanceEnd = new Date(instanceEndString).getTime();
-        console.log(start, end, instanceStart, instanceEnd);
+        // console.log(start, end, instanceStart, instanceEnd);
         if (start < instanceStart && end < instanceEnd) {
           err.errors.endDate = 'End date conflicts with existing booking'
           res.status(403);
