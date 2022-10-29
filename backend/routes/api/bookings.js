@@ -12,7 +12,7 @@ router.get(
     const { id } = req.user;
     const allBookings = await Booking.findAll({
       where: {
-        userId: id
+        userId: 2
       },
       include: [
         {
@@ -20,13 +20,12 @@ router.get(
           include: [
             {
               model: SpotImage,
-              where: {
-                preview: true
-              },
-              attributes: ['url']
-            }
+              // where: {
+              //   preview: true
+              // },
+              attributes: ['url', 'preview']
+            },
           ],
-          attributes: { exclude: ['description', 'createdAt', 'updatedAt'] }
         }
       ]
     });
@@ -35,8 +34,18 @@ router.get(
       arrayOfBookings.push(booking.toJSON());
     });
     for (let i = 0; i < arrayOfBookings.length; i++) {
-      arrayOfBookings[i].Spot.preview = arrayOfBookings[i].Spot.SpotImages[0].url;
+      arrayOfBookings[i].Spot.preview = null;
+      if (arrayOfBookings[i].Spot.SpotImages.length) {
+        for (let j = 0; j < arrayOfBookings[i].Spot.SpotImages.length; j++) {
+          if (arrayOfBookings[i].Spot.SpotImages[j].preview) {
+            arrayOfBookings[i].Spot.preview = arrayOfBookings[i].Spot.SpotImages[j].url;
+          }
+        }
+      }
       delete arrayOfBookings[i].Spot.SpotImages;
+
+      // arrayOfBookings[i].Spot.preview = arrayOfBookings[i].Spot.SpotImages[0].url;
+      // delete arrayOfBookings[i].Spot.SpotImages;
     }
     return res.json({ "Bookings": arrayOfBookings });
   }
