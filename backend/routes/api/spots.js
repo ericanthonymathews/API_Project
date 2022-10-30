@@ -83,12 +83,12 @@ const validateQuery = [
   check('maxPrice')
     .optional()
     .exists({ checkFalsy: true })
-    .isDecimal()
+    .isDecimal({ min: 0.00 })
     .withMessage('Maximum price must be greater than or equal to 0'),
   check('minPrice')
     .optional()
     .exists({ checkFalsy: true })
-    .isDecimal()
+    .isDecimal({ min: 0.00 })
     .withMessage('Minimum price must be greater than or equal to 0'),
   handleValidationErrors
 ];
