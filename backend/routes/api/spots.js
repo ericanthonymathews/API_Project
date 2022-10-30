@@ -49,52 +49,160 @@ const validateNewReview = [
     .withMessage('Stars must be an integer between 1 and 5'),
   handleValidationErrors
 ];
+const validateQuery = [
+  check('page')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1 })
+    .withMessage('Page must be greater than or equal to 1'),
+  check('size')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1 })
+    .withMessage('Size must be greater than or equal to 1'),
+  check('minLat')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Minimum latitude is invalid'),
+  check('maxLat')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Maximum latitude is invalid'),
+  check('minLng')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Minimum longitude is invalid'),
+  check('maxLng')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Maximum longitude is invalid'),
+  check('maxPrice')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Maximum price must be greater than or equal to 0'),
+  check('minPrice')
+    .optional()
+    .exists({ checkFalsy: true })
+    .isDecimal()
+    .withMessage('Minimum price must be greater than or equal to 0'),
+  handleValidationErrors
+];
 
-router.get('/', async (req, res) => {
-  const spots = await Spot.findAll({
-    include: [
-      {
-        model: SpotImage
-      },
-      {
-        model: Review
-      }
-    ]
-  });
+router.get(
+  '/',
+  validateQuery,
+  async (req, res) => {
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+    let noPageOrSizeSpecified = false;
+    if (!page && !size) noPageOrSizeSpecified = true;
+    if (!page) page = 1;
+    if (!size) size = 20;
 
-  let allSpots = [];
+    const whereObject = {};
 
-  spots.forEach(spot => {
-    allSpots.push(spot.toJSON());
-  });
-  allSpots.forEach(spot => {
-    let numberOfReviews = 0;
-    let totalStars = 0;
-    spot.Reviews.forEach(review => {
-      numberOfReviews++;
-      totalStars += review.stars;
-    });
-    if (totalStars) {
-      spot.avgRating = numberOfReviews / totalStars;
-    } else {
-      spot.avgRating = 'N/A';
+    if (minLat && maxLat) {
+      whereObject.lat = {
+        [Op.between]: [minLat, maxLat]
+      };
+    } else if (minLat && !maxLat) {
+      whereObject.lat = {
+        [Op.gte]: minLat
+      };
+    } else if (!minLat && maxLat) {
+      whereObject.lat = {
+        [Op.lte]: maxLat
+      };
     }
-    delete spot.Reviews;
-  });
-  allSpots.forEach(spot => {
-    spot.SpotImages.forEach(image => {
-      if (image.preview === true) {
-        spot.previewImage = image.url;
-      }
-    });
-    if (!spot.previewImage) {
-      spot.previewImage = 'no preview image found'
-    }
-    delete spot.SpotImages;
-  });
 
-  res.json({ 'Spots': allSpots });
-});
+    if (minLng && maxLng) {
+      whereObject.lng = {
+        [Op.between]: [minLng, maxLng]
+      };
+    } else if (minLng && !maxLng) {
+      whereObject.lng = {
+        [Op.gte]: minLng
+      };
+    } else if (!minLng && maxLng) {
+      whereObject.lng = {
+        [Op.lte]: maxLng
+      };
+    }
+
+    if (minPrice && maxPrice) {
+      whereObject.price = {
+        [Op.between]: [minPrice, maxPrice]
+      };
+    } else if (minPrice && !maxPrice) {
+      whereObject.price = {
+        [Op.gte]: minPrice
+      };
+    } else if (!minPrice && maxPrice) {
+      whereObject.price = {
+        [Op.lte]: maxPrice
+      };
+    }
+
+    const findAllObject = {
+      limit: size,
+      offset: size * (page - 1),
+      where: { ...whereObject },
+      include: [
+        {
+          model: SpotImage
+        },
+        {
+          model: Review
+        }
+      ]
+    };
+
+    const spots = await Spot.findAll(findAllObject);
+
+    let allSpots = [];
+
+    spots.forEach(spot => {
+      allSpots.push(spot.toJSON());
+    });
+    allSpots.forEach(spot => {
+      let numberOfReviews = 0;
+      let totalStars = 0;
+      spot.Reviews.forEach(review => {
+        numberOfReviews++;
+        totalStars += review.stars;
+      });
+      if (totalStars) {
+        spot.avgRating = numberOfReviews / totalStars;
+      } else {
+        spot.avgRating = 'N/A';
+      }
+      delete spot.Reviews;
+    });
+    allSpots.forEach(spot => {
+      spot.SpotImages.forEach(image => {
+        if (image.preview === true) {
+          spot.previewImage = image.url;
+        }
+      });
+      if (!spot.previewImage) {
+        spot.previewImage = 'no preview image found'
+      }
+      delete spot.SpotImages;
+    });
+    const results = {
+      'Spots': allSpots
+    };
+    if (!noPageOrSizeSpecified) {
+      results.page = page;
+      results.size = size;
+    }
+    res.json(results);
+  }
+);
 
 router.post(
   '/',

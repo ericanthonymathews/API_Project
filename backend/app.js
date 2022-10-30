@@ -59,6 +59,8 @@ const { ValidationError } = require('sequelize');
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
+
+
     err.errors = err.errors.map((e) => e.message);
     err.title = 'Validation error';
   }
@@ -72,12 +74,22 @@ app.use((err, _req, res, _next) => {
   if (isProduction) {
     res.json({
       message: err.message,
-      statusCode: err.status
+      statusCode: err.status,
+      errors: err.errors
     });
   }
+  // res.json({
+  //   //  title: err.title || 'Server Error',
+  //   message: err.message,
+  //   statusCode: err.status,
+  //   errors: err.errors
+  // });
+
+  // OG error handler
   res.json({
     title: err.title || 'Server Error',
     message: err.message,
+    statusCode: err.status,
     errors: err.errors,
     stack: isProduction ? null : err.stack
   });

@@ -7,9 +7,13 @@ const handleValidationErrors = (req, _res, next) => {
   const validationErrors = validationResult(req);
 
   if (!validationErrors.isEmpty()) {
-    const errors = validationErrors
-      .array()
-      .map((error) => `${error.msg}`);
+    const errorsArray = validationErrors.array();
+    // .map((error) => `${error.msg}`);
+    const errors = {};
+    for (let i = 0; i < errorsArray.length; i++) {
+      let currentError = errorsArray[i];
+      errors[currentError.param] = currentError.msg;
+    }
 
     const err = Error('Validation error');
     err.errors = errors;
