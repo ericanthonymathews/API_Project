@@ -9,6 +9,23 @@
     "dev:backend": "npm install --prefix backend start",
     "sequelize": "npm run --prefix backend sequelize",
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
-    "start": "npm start --prefix backend"
-  }
+    "start": "npm start --prefix backend",
+    "build": "npm run --prefix backend build"
+  },
+  "name": "api_project",
+  "description": "## Database Schema Design",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericanthonymathews/API_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericanthonymathews/API_Project/issues"
+  },
+  "homepage": "https://github.com/ericanthonymathews/API_Project#readme"
 }
