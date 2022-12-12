@@ -37,7 +37,6 @@ router.post(
   validateSignup,
   async (req, res) => {
     const { email, password, username, firstName, lastName } = req.body;
-    console.log('hey~~~~~~~~~~~~~~~~~~~~~~~~~~~');
     const existingUsername = await User.findOne({ where: { username } });
     const existingEmail = await User.findOne({ where: { email } });
     const copyError = {
