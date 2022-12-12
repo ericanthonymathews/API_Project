@@ -10,7 +10,7 @@ module.exports = {
     typeValidation: true
   },
   production: {
-    use_env_variable: 'postgres://my_dbs_2j6u_user:QVDKz90ZLWJGZiFeZaDgBF9d1SsEFGG9@dpg-ce8gbb82i3mv0jto4mag-a/my_dbs_2j6u',
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {
