@@ -15,9 +15,7 @@ const SpotShow = () => {
   useEffect(() => {
     dispatch(getSingleSpot(spotId))
   }, [dispatch, spotId]);
-  return (
-    <div>Hello World</div>
-  );
+
   if (!singleSpot) return null;
   return (
     <div className="spot-data">
@@ -33,6 +31,13 @@ const SpotShow = () => {
         src={`${singleSpot.SpotImages[0]}`}
         alt="Single Spot"
       /> */}
+      {singleSpot.SpotImages.length > 0 &&
+        <img
+          className='first-img'
+          src={`${singleSpot.SpotImages[0].url}`}
+          alt={singleSpot.SpotImages[0].url}
+        />
+      }
       <div className="hosted-by">hosted by {singleSpot.Owner.firstName}</div>
     </div>
   )
