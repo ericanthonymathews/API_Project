@@ -13,10 +13,17 @@ const SpotShow = () => {
   })
 
   useEffect(() => {
-    dispatch(getSingleSpot(spotId))
-  }, [dispatch, spotId]);
+    dispatch(getSingleSpot(spotId));
+  }, [spotId, dispatch]);
 
-  if (!singleSpot) return null;
+  // return (
+  //   <div>{singleSpot.toString()}</div>
+
+  // )
+  // return (
+  //   <div>Calm down brother look at the data</div>
+  // )
+  if (!Object.keys(singleSpot).length) return null;
   return (
     <div className="spot-data">
       <div className="spot-title">{singleSpot.name}</div>
@@ -31,7 +38,7 @@ const SpotShow = () => {
         src={`${singleSpot.SpotImages[0]}`}
         alt="Single Spot"
       /> */}
-      {singleSpot.SpotImages.length > 0 &&
+      {singleSpot && singleSpot.SpotImages && singleSpot.SpotImages.length > 0 &&
         <img
           className='first-img'
           src={`${singleSpot.SpotImages[0].url}`}

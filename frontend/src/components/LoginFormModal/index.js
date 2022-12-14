@@ -35,18 +35,18 @@ function LoginFormModal() {
           ))}
         </ul>
         <label>
-          Username or Email
           <input
             type="text"
             value={credential}
+            placeholder="Username or Email"
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
         <label>
-          Password
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
