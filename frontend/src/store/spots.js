@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 /* action constants */
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT = 'spots/loadSpot';
@@ -6,7 +8,7 @@ const ADD_SPOT = 'spots/addSpot';
 /* action creators */
 const loadSpots = (spots) => ({
   type: LOAD_SPOTS,
-  spots: spots.Spots
+  spots
 });
 
 const loadSpot = (spot) => ({
@@ -24,8 +26,8 @@ export const getSpots = () => async (dispatch) => {
   const response = await fetch('/api/spots');
 
   if (response.ok) {
-    const spots = await response.json();
-    dispatch(loadSpots(spots));
+    const data = await response.json();
+    dispatch(loadSpots(data.Spots));
   }
 }
 
@@ -38,27 +40,29 @@ export const getSingleSpot = (spotId) => async (dispatch) => {
   }
 }
 
-export const createSpot = (spot) => async (dispatch) => {
-  // const {
-  //   address,
-  //   city,
-  //   state,
-  //   country,
-  //   lat,
-  //   lng,
-  //   name,
-  //   description,
-  //   price
-  // } = spot;
-  const response = await fetch('api/spots', {
+export const createSpot = (spot, url) => async (dispatch) => {
+  const response = await csrfFetch('/api/spots', {
     method: 'POST',
     body: JSON.stringify(spot)
   });
   const data = await response.json();
+  console.log('this is the data!!!!!!!!!!!!!!!!!!!', data);
   if (response.ok) {
-    dispatch(addSpot(data));
+    const response2 = await csrfFetch(`/api/spots/${data.id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        url,
+        preview: true
+      })
+    });
+    const data2 = await response2.json();
+    if (response2.ok) {
+      const newSpot = { ...data, avgRating: "N/A", previewImage: data2.url };
+      dispatch(addSpot(newSpot));
+    }
   }
-  return response;
+
+  return data;
 }
 
 /* state helpers */
@@ -69,26 +73,25 @@ const initialState = {
 
 /* reducer */
 const spotsReducer = (state = initialState, action) => {
-  let newState;
+
   switch (action.type) {
-    case LOAD_SPOTS:
-      newState = { ...state };
-      const allSpotsObject = {};
+    case LOAD_SPOTS: {
+      const newState = { allSpots: {}, singleSpot: {} };
       action.spots.forEach((spot) => {
-        allSpotsObject[spot.id] = spot;
+        newState.allSpots[spot.id] = spot;
       });
-      newState.allSpots = allSpotsObject;
       return newState;
-    case LOAD_SPOT:
-      newState = { ...state };
+    }
+    case LOAD_SPOT: {
+      const newState = { ...state, singleSpots: {} };
       newState.singleSpot = action.spot;
       return newState;
-    case ADD_SPOT:
-      newState = { ...state };
-      const newSpot = { ...action.spot, avgRating: "N/A", previewImage: "no preview image found" };
-      const updatedSpotObject = { ...state.allSpots, [newSpot.id]: newSpot };
-      newState.allSpots = updatedSpotObject;
+    }
+    case ADD_SPOT: {
+      const newState = { ...state, allSpots: { ...state.allSpots } };
+      newState.allSpots[action.spot.id] = action.spot;
       return newState;
+    }
     default:
       return state;
   }

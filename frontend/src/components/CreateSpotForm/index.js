@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import { createSpot } from "../../store/spots";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+// import { useModal } from "../../context/Modal";
 import "./CreateSpot.css";
 
-function CreateSpotModal() {
+function CreateSpotForm() {
   const dispatch = useDispatch();
+  let history = useHistory();
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -15,8 +17,11 @@ function CreateSpotModal() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [url, setUrl] = useState("");
   const [errors, setErrors] = useState([]);
-  const { closeModal } = useModal();
+  // const { closeModal } = useModal();
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,18 +37,36 @@ function CreateSpotModal() {
       description,
       price
     }
-    return dispatch(createSpot(newSpot))
-      .then(closeModal)
+    return dispatch(createSpot(newSpot, url))
+      .then(
+        async (data) => {
+          console.log(data);
+          // const data = await res.json();
+          // console.log(data);
+          if (data.id) {
+            history.push(`/spots/${data.id}`);
+          }
+        }
+      )
       .catch(
         async (res) => {
           const data = await res.json();
+          console.log('catch running +!@)$I@$)()@%$) data', data)
           if (data && data.errors) setErrors(data.errors);
         }
       );
   };
 
+  useEffect(() => {
+    let errs = [];
+    if (!url.length) errs.push("Image URL field is required");
+    setErrors(errs);
+  }, [url]);
+
   return (
-    <>
+    <div
+      className="create-spot-form"
+    >
       <h1>Create Spot</h1>
       <form onSubmit={handleSubmit}>
         <ul>
@@ -126,25 +149,25 @@ function CreateSpotModal() {
         <label>
           <input
             type="text"
-            value={name}
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="text"
             value={price}
             placeholder="Price"
             onChange={(e) => setPrice(e.target.value)}
             required
           />
         </label>
+        <label>
+          <input
+            type="text"
+            value={url}
+            placeholder="Image URL"
+            onChange={(e) => setUrl(e.target.value)}
+            required
+          />
+        </label>
         <button type="submit">Create Spot</button>
       </form>
-    </>
+    </div>
   );
 }
 
-export default CreateSpotModal;
+export default CreateSpotForm;

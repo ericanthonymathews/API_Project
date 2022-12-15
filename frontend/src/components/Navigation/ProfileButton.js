@@ -1,5 +1,6 @@
 // frontend/src / components / Navigation / ProfileButton.js
 import React, { useState, useEffect, useRef } from "react";
+import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
@@ -51,6 +52,12 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
+            <NavLink
+              to="/spots/new"
+              onClick={closeMenu}
+            >
+              Create Listing
+            </NavLink>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
