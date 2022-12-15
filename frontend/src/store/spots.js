@@ -4,6 +4,7 @@ import { csrfFetch } from './csrf';
 const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT = 'spots/loadSpot';
 const ADD_SPOT = 'spots/addSpot';
+const EDIT_SPOT = 'spots/editSpot';
 
 /* action creators */
 const loadSpots = (spots) => ({
@@ -18,6 +19,11 @@ const loadSpot = (spot) => ({
 
 const addSpot = (spot) => ({
   type: ADD_SPOT,
+  spot
+});
+
+const editSpot = (spot) => ({
+  type: EDIT_SPOT,
   spot
 });
 
@@ -41,27 +47,45 @@ export const getSingleSpot = (spotId) => async (dispatch) => {
 }
 
 export const createSpot = (spot, url) => async (dispatch) => {
+
   const response = await csrfFetch('/api/spots', {
     method: 'POST',
     body: JSON.stringify(spot)
   });
+
   const data = await response.json();
-  console.log('this is the data!!!!!!!!!!!!!!!!!!!', data);
+
   if (response.ok) {
-    const response2 = await csrfFetch(`/api/spots/${data.id}`, {
+    const response2 = await csrfFetch(`/api/spots/${data.id}/images`, {
       method: 'POST',
       body: JSON.stringify({
         url,
         preview: true
       })
     });
+
     const data2 = await response2.json();
+
     if (response2.ok) {
       const newSpot = { ...data, avgRating: "N/A", previewImage: data2.url };
       dispatch(addSpot(newSpot));
     }
   }
+  return data;
+}
 
+export const changeSpot = (editedSpot, spotId) => async (dispatch) => {
+
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'PUT',
+    body: JSON.stringify(editedSpot)
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch(editSpot(data));
+  }
   return data;
 }
 
@@ -90,6 +114,14 @@ const spotsReducer = (state = initialState, action) => {
     case ADD_SPOT: {
       const newState = { ...state, allSpots: { ...state.allSpots } };
       newState.allSpots[action.spot.id] = action.spot;
+      return newState;
+    }
+    case EDIT_SPOT: {
+      const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot:{ ...state.singleSpot}};
+      newState.allSpots[action.spot.id] = { ...state.allSpots[action.spot.id], ...action.spot};
+      if (Object.values(newState.singleSpot).length) {
+        newState.singleSpot = { ...newState.singleSpot, ...action.spot };
+      }
       return newState;
     }
     default:

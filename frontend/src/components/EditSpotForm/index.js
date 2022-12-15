@@ -1,11 +1,16 @@
+
 import React, { useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
-import { createSpot } from "../../store/spots";
-import { useDispatch } from "react-redux";
-// import { useModal } from "../../context/Modal";
-import "./CreateSpot.css";
+import { changeSpot } from "../../store/spots";
+import { useDispatch, useSelector } from "react-redux";
+import './EditSpot.css';
 
-function CreateSpotForm() {
+
+
+function EditSpotForm() {
+  const spotDetails = useSelector((state) => {
+    return state.spots.singleSpot;
+  });
   const dispatch = useDispatch();
   let history = useHistory();
   const [address, setAddress] = useState("");
@@ -17,16 +22,28 @@ function CreateSpotForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [url, setUrl] = useState("");
+
   const [errors, setErrors] = useState([]);
-  // const { closeModal } = useModal();
+
+  useEffect(() => {
+    setAddress(spotDetails.address);
+    setCity(spotDetails.city);
+    setState(spotDetails.state);
+    setCountry(spotDetails.country);
+    setLat(spotDetails.lat);
+    setLng(spotDetails.lng);
+    setName(spotDetails.name);
+    setDescription(spotDetails.description);
+    setPrice(spotDetails.price);
+
+  }, [spotDetails])
 
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    let newSpot = {
+    let editedSpot = {
       address,
       city,
       state,
@@ -37,7 +54,7 @@ function CreateSpotForm() {
       description,
       price
     }
-    return dispatch(createSpot(newSpot, url))
+    return dispatch(changeSpot(editedSpot, spotDetails.id))
       .then(
         async (data) => {
           if (data.id) {
@@ -53,12 +70,6 @@ function CreateSpotForm() {
       );
   };
 
-  useEffect(() => {
-    let errs = [];
-    if (!url.length) errs.push("Image URL field is required");
-    setErrors(errs);
-  }, [url]);
-
   return (
     <div
       className="create-spot-form"
@@ -71,6 +82,7 @@ function CreateSpotForm() {
           ))}
         </ul>
         <label>
+          Address
           <input
             type="text"
             value={address}
@@ -80,6 +92,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          City
           <input
             type="text"
             value={city}
@@ -89,6 +102,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          State
           <input
             type="text"
             value={state}
@@ -98,6 +112,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Country
           <input
             type="text"
             value={country}
@@ -107,6 +122,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Latitude
           <input
             type="text"
             value={lat}
@@ -116,6 +132,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Longitude
           <input
             type="text"
             value={lng}
@@ -125,6 +142,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Name
           <input
             type="text"
             value={name}
@@ -134,6 +152,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Description
           <input
             type="text"
             value={description}
@@ -143,6 +162,7 @@ function CreateSpotForm() {
           />
         </label>
         <label>
+          Price
           <input
             type="text"
             value={price}
@@ -151,19 +171,10 @@ function CreateSpotForm() {
             required
           />
         </label>
-        <label>
-          <input
-            type="text"
-            value={url}
-            placeholder="Image URL"
-            onChange={(e) => setUrl(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Create Spot</button>
+        <button type="submit">Save Edits</button>
       </form>
     </div>
   );
 }
 
-export default CreateSpotForm;
+export default EditSpotForm;

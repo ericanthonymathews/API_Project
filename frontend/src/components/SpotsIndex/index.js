@@ -18,7 +18,7 @@ const SpotsIndex = () => {
         spots.map(spot => (
           <SpotsIndexItem
             spot={spot}
-            key={spot.name}
+            key={`${spot.name}${spot.id}`}
           />
         ))
       }

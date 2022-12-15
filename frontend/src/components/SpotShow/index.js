@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { getSingleSpot } from '../../store/spots';
 import "./SpotShow.css";
 
@@ -12,17 +12,14 @@ const SpotShow = () => {
     return state.spots.singleSpot;
   })
 
+  const currentUser = useSelector((state) => {
+    return state.session.user;
+  })
+
   useEffect(() => {
     dispatch(getSingleSpot(spotId));
   }, [spotId, dispatch]);
 
-  // return (
-  //   <div>{singleSpot.toString()}</div>
-
-  // )
-  // return (
-  //   <div>Calm down brother look at the data</div>
-  // )
   if (!Object.keys(singleSpot).length) return null;
   return (
     <div className="spot-data">
@@ -33,11 +30,6 @@ const SpotShow = () => {
         <div className="number-of-reviews">{singleSpot.numReviews}</div>
         <div className="spot-address">{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</div>
       </div>
-      {/* <img
-        className="first-image"
-        src={`${singleSpot.SpotImages[0]}`}
-        alt="Single Spot"
-      /> */}
       {singleSpot && singleSpot.SpotImages && singleSpot.SpotImages.length > 0 &&
         <img
           className='first-img'
@@ -46,6 +38,12 @@ const SpotShow = () => {
         />
       }
       <div className="hosted-by">hosted by {singleSpot.Owner.firstName}</div>
+      {currentUser.id === singleSpot.Owner.id &&
+        <NavLink className="edit-spot-button" exact to={`/spots/${singleSpot.id}/edit`}>Edit Listing</NavLink>
+
+
+
+      }
     </div>
   )
 }
