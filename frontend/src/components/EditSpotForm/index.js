@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { changeSpot } from "../../store/spots";
 import { useDispatch, useSelector } from "react-redux";
 import './EditSpot.css';
@@ -173,6 +173,7 @@ function EditSpotForm() {
         </label>
         <button type="submit">Save Edits</button>
       </form>
+      <NavLink exact to={`/spots/${spotDetails.id}`}>Back to Listing</NavLink>
     </div>
   );
 }

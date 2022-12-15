@@ -38,9 +38,11 @@ const SpotShow = () => {
         />
       }
       <div className="hosted-by">hosted by {singleSpot.Owner.firstName}</div>
-      {currentUser.id === singleSpot.Owner.id &&
-        <NavLink className="edit-spot-button" exact to={`/spots/${singleSpot.id}/edit`}>Edit Listing</NavLink>
-
+      {currentUser && currentUser.id === singleSpot.Owner.id &&
+        <div className="spotshow-host-actions">
+          <NavLink className="spotshow-edit-spot-button" exact to={`/spots/${singleSpot.id}/edit`}>Edit Listing</NavLink>
+          <NavLink className="spotshow-delete-spot-button" exact to={`/spots/${singleSpot.id}/delete`}>Delete Listing</NavLink>
+        </div>
 
 
       }

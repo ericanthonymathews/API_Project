@@ -5,6 +5,7 @@ const LOAD_SPOTS = 'spots/loadSpots';
 const LOAD_SPOT = 'spots/loadSpot';
 const ADD_SPOT = 'spots/addSpot';
 const EDIT_SPOT = 'spots/editSpot';
+const DELETE_SPOT = 'spots/deleteSpot'
 
 /* action creators */
 const loadSpots = (spots) => ({
@@ -25,6 +26,11 @@ const addSpot = (spot) => ({
 const editSpot = (spot) => ({
   type: EDIT_SPOT,
   spot
+});
+
+const deleteSpot = (spotId) => ({
+  type: DELETE_SPOT,
+  spotId
 });
 
 /* thunk action creators */
@@ -89,6 +95,19 @@ export const changeSpot = (editedSpot, spotId) => async (dispatch) => {
   return data;
 }
 
+export const removeSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'DELETE',
+  });
+
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch(deleteSpot(spotId));
+  }
+  return data;
+}
+
 /* state helpers */
 const initialState = {
   allSpots: {},
@@ -107,7 +126,7 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
     }
     case LOAD_SPOT: {
-      const newState = { ...state, singleSpots: {} };
+      const newState = { ...state, singleSpot: {} };
       newState.singleSpot = action.spot;
       return newState;
     }
@@ -117,11 +136,16 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
     }
     case EDIT_SPOT: {
-      const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot:{ ...state.singleSpot}};
-      newState.allSpots[action.spot.id] = { ...state.allSpots[action.spot.id], ...action.spot};
+      const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: { ...state.singleSpot } };
+      newState.allSpots[action.spot.id] = { ...state.allSpots[action.spot.id], ...action.spot };
       if (Object.values(newState.singleSpot).length) {
         newState.singleSpot = { ...newState.singleSpot, ...action.spot };
       }
+      return newState;
+    }
+    case DELETE_SPOT: {
+      const newState = { ...state, allSpots: { ...state.allSpots }, singleSpot: {} };
+      delete newState.allSpots[action.spotId];
       return newState;
     }
     default:
