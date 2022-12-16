@@ -36,7 +36,8 @@ function CreateSpotForm() {
       name,
       description,
       price
-    }
+    };
+
     return dispatch(createSpot(newSpot, url))
       .then(
         async (data) => {
@@ -108,7 +109,7 @@ function CreateSpotForm() {
         </label>
         <label>
           <input
-            type="text"
+            type="number"
             value={lat}
             placeholder="Latitude"
             onChange={(e) => setLat(e.target.value)}
@@ -117,7 +118,7 @@ function CreateSpotForm() {
         </label>
         <label>
           <input
-            type="text"
+            type="number"
             value={lng}
             placeholder="Longitude"
             onChange={(e) => setLng(e.target.value)}
@@ -144,7 +145,7 @@ function CreateSpotForm() {
         </label>
         <label>
           <input
-            type="text"
+            type="number"
             value={price}
             placeholder="Price"
             onChange={(e) => setPrice(e.target.value)}
@@ -153,7 +154,7 @@ function CreateSpotForm() {
         </label>
         <label>
           <input
-            type="text"
+            type="url"
             value={url}
             placeholder="Image URL"
             onChange={(e) => setUrl(e.target.value)}
