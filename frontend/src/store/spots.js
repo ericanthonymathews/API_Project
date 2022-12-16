@@ -97,7 +97,7 @@ export const changeSpot = (editedSpot, spotId) => async (dispatch) => {
 
 export const removeSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'DELETE',
+    method: 'DELETE'
   });
 
   const data = await response.json();
