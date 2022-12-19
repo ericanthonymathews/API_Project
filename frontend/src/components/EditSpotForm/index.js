@@ -72,10 +72,14 @@ function EditSpotForm() {
 
   return (
     <div
-      className="create-spot-form"
+      className="edit-spot-form"
     >
-      <h1>Create Spot</h1>
-      <form onSubmit={handleSubmit}>
+      <div className="form-header">
+        <NavLink exact to={`/spots/${spotDetails.id}`}><i id="back-arrow" className="fa-solid fa-arrow-left"></i></NavLink>
+        <h1>Edit Spot</h1>
+        <div></div>
+      </div>
+      <form id="edit-spot-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
@@ -83,97 +87,105 @@ function EditSpotForm() {
         </ul>
         <label>
           Address
-          <input
-            type="text"
-            value={address}
-            placeholder="Address"
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={address}
+          placeholder="Address"
+          onChange={(e) => setAddress(e.target.value)}
+          required
+        />
         <label>
           City
-          <input
-            type="text"
-            value={city}
-            placeholder="City"
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={city}
+          placeholder="City"
+          onChange={(e) => setCity(e.target.value)}
+          required
+        />
         <label>
           State
-          <input
-            type="text"
-            value={state}
-            placeholder="State"
-            onChange={(e) => setState(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={state}
+          placeholder="State"
+          onChange={(e) => setState(e.target.value)}
+          required
+        />
         <label>
           Country
-          <input
-            type="text"
-            value={country}
-            placeholder="Country"
-            onChange={(e) => setCountry(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={country}
+          placeholder="Country"
+          onChange={(e) => setCountry(e.target.value)}
+          required
+        />
         <label>
           Latitude
-          <input
-            type="text"
-            value={lat}
-            placeholder="Latitude"
-            onChange={(e) => setLat(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={lat}
+          placeholder="Latitude"
+          onChange={(e) => setLat(e.target.value)}
+          required
+        />
         <label>
           Longitude
-          <input
-            type="text"
-            value={lng}
-            placeholder="Longitude"
-            onChange={(e) => setLng(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={lng}
+          placeholder="Longitude"
+          onChange={(e) => setLng(e.target.value)}
+          required
+        />
         <label>
           Name
-          <input
-            type="text"
-            value={name}
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={name}
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
         <label>
           Description
-          <input
-            type="text"
-            value={description}
-            placeholder="Description"
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
         </label>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={description}
+          placeholder="Description"
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
         <label>
           Price
-          <input
-            type="text"
-            value={price}
-            placeholder="Price"
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
         </label>
-        <button type="submit">Save Edits</button>
+        <input
+          className="edit-spot-input"
+          type="text"
+          value={price}
+          placeholder="Price"
+          onChange={(e) => setPrice(e.target.value)}
+          required
+        />
+        <button className="spot-form-button" type="submit">Save Edits</button>
       </form>
-      <NavLink exact to={`/spots/${spotDetails.id}`}>Back to Listing</NavLink>
     </div>
   );
 }

@@ -46,7 +46,43 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password8'),
         firstName: 'Clark',
         lastName: 'Kent'
+      },
+      {
+        email: 'iama@gmail.com',
+        username: 'Gabbagabba',
+        hashedPassword: bcrypt.hashSync('password6e1'),
+        firstName: 'James',
+        lastName: 'Galallad'
+      },
+      {
+        email: 'iama@thief.com',
+        username: 'Bjergsen',
+        hashedPassword: bcrypt.hashSync('password6e1'),
+        firstName: 'Soren',
+        lastName: 'Bjerg'
+      },
+      {
+        email: 'botorfeed@gmail.com',
+        username: 'Doublelift',
+        hashedPassword: bcrypt.hashSync('spamfaster'),
+        firstName: 'Yilang',
+        lastName: 'Peng'
+      },
+      {
+        email: 'iamamartist@gmail.com',
+        username: 'Artist-for-hire',
+        hashedPassword: bcrypt.hashSync('password6elephant'),
+        firstName: 'Jeremy',
+        lastName: 'Smithers'
+      },
+      {
+        email: 'hellofriend@gmail.com',
+        username: 'MrNiceGuy',
+        hashedPassword: bcrypt.hashSync('everythingiscool'),
+        firstName: 'Astin',
+        lastName: 'Folds'
       }
+
     ], {});
   },
 
@@ -54,7 +90,7 @@ module.exports = {
 
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2', 'Sum-buddy', 'Superman'] }
+      username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2', 'Sum-buddy', 'Superman', 'Gabbagabba', 'Bjergsen', 'Doublelift', 'Artist-for-hire', 'MrNiceGuy'] }
     }, {});
   }
 };

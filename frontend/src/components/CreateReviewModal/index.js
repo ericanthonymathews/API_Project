@@ -11,7 +11,7 @@ function CreateReviewModal() {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState(5);
+  const [stars, setStars] = useState("");
   const [errors, setErrors] = useState([]);
 
   const handleSubmit = (e) => {
@@ -48,33 +48,36 @@ function CreateReviewModal() {
 
   return (
     <div className="create-review-form">
-      <h1>Create Review</h1>
-      <form onSubmit={handleSubmit}>
+      <div className="modal-title-container">
+        <i className="fa-solid fa-xmark" onClick={closeModal}></i>
+        <div className="modal-title"><b>Sign Up</b></div>
+        <div></div>
+      </div>
+      <form id="create-review-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Stars
-          <input
-            type="text"
-            value={stars}
-            placeholder="1 - 5"
-            onChange={(e) => setStars(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="text"
-            value={review}
-            placeholder="Tell us about your experience!"
-            onChange={(e) => setReview(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Create Review</button>
+        <input
+          id="review-input-top"
+          className="modal-input-field"
+          type="text"
+          value={stars}
+          placeholder="Stars: 1 - 5"
+          onChange={(e) => setStars(e.target.value)}
+          required
+        />
+        <input
+          id="review-input-bottom"
+          className="modal-input-field"
+          type="text"
+          value={review}
+          placeholder="Tell us about your experience!"
+          onChange={(e) => setReview(e.target.value)}
+          required
+        />
+        <button className="modal-bottom-button" type="submit">Create Review</button>
       </form>
     </div>
   )

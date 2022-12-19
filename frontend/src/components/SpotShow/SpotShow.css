@@ -1,0 +1,216 @@
+.spot-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.spot-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 1.5em;
+}
+
+.spot-header-left {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.second-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.second-row-item {
+  padding: .5em;
+  padding-left: 0;
+}
+
+.second-row-item-underline {
+  text-decoration: underline;
+  padding: .5em;
+  padding-left: 0;
+}
+
+li.second-row-item-underline>* {
+  padding-left: 0;
+}
+
+.spotshow-host-actions {
+  display: flex;
+  width: 10em;
+  flex-direction: row;
+  padding: .5em;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.first-img {
+  width: 100%;
+  height: 30em;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 1.4em;
+}
+
+.bottom-half {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-half {
+  width: 60%;
+}
+
+.right-half {
+  display: flex;
+  flex-direction: column;
+  padding: .5em;
+  padding-top: 1.5em;
+  width: 30%;
+  height: 15em;
+  border: 1px rgb(238, 236, 236) solid;
+  margin-top: 3.5em;
+  border-radius: 10px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+.spotshow-pricecard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.pricecard-header-left {
+  font-size: 20px;
+  padding-left: .5em;
+
+}
+
+.pricecard-header-right {
+  display: flex;
+  flex-direction: row;
+}
+
+.hosted-by {
+  font-size: 21px;
+  width: 100%;
+  padding-top: 2em;
+  padding-bottom: 1.5em;
+  border-bottom: 1px rgb(238, 236, 236) solid;
+}
+
+.spot-description {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 100%;
+  height: 15em;
+  font-size: 16px;
+}
+
+.reviews-container {
+  width: 100%;
+  height: 25em;
+  border-top: 1px rgb(238, 236, 236) solid;
+  display: flex;
+  flex-direction: column;
+  padding-top: 3.5em;
+  font-size: 20px;
+}
+
+.reviews-container-header {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 2em;
+}
+
+li.number-of-reviews {
+  padding-left: 1em;
+  ;
+}
+
+.reviews-list {
+  width: 100%;
+  height: 60em;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.preview-card-user {
+  font-size: 16px;
+}
+
+.preview-card {
+  width: 40%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-card-date {
+  color: grey;
+  font-size: 13px;
+}
+
+.preview-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.preview-header-buttons {
+  font-size: 10px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.preview-text-wrapper {
+  width: 100%;
+  display: flex;
+  font-size: 14px;
+}
+
+.previews-and-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-text-display {
+  word-wrap: break-word;
+  display: flex;
+  width: 100%
+}
+
+#create-review {
+  text-decoration: underline;
+  cursor: pointer;
+  padding: .5em;
+  font-size: 16px;
+}
+
+#spot-buttons {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px rgb(238, 236, 236) solid;
+  padding-bottom: 1.5em;
+}
+
+#show-all-reviews-button {
+  border: 1px black solid;
+  border-radius: 8px;
+  padding: .5em;
+  font-size: 16px;
+  text-decoration: none;
+  margin-top: 2em;
+}

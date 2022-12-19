@@ -1,0 +1,43 @@
+.spot-index-item {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 21.6em;
+
+}
+
+.spots-card-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+.spots-card-image-container {
+  width: 21.6em;
+  height: 21.6em;
+}
+
+.spot-index-item-navlink {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: black
+}
+
+.location-and-rating {
+  padding-top: .8em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.spots-avg-rating-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.price {
+  padding-top: 3em;
+}

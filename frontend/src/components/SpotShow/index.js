@@ -49,7 +49,7 @@ const SpotShow = () => {
       return setShowReviewButton(false);
     }
     if (currentUser && singleSpot) {
-      if (currentUser === singleSpot.ownerId) {
+      if (currentUser.id === singleSpot.ownerId) {
         return setShowReviewButton(false);
       }
     }
@@ -68,47 +68,88 @@ const SpotShow = () => {
   if (!Object.keys(singleSpot).length) return null;
   return (
     <div className="spot-data">
-      <div className="spot-title">{singleSpot.name}</div>
       <div className="spot-header">
-        <i className="fa-solid fa-star"></i>
-        <div className="avg-star-rating">{singleSpot.avgStarRating}</div>
-        <div className="number-of-reviews">{singleSpot.numReviews} reviews</div>
-        <div className="spot-address">{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</div>
+        <div className="spot-header-left">
+          <div className="spot-title"><h1>{singleSpot.name}</h1></div>
+          <div className="second-row">
+            <div className="second-row-item"><i className="fa-solid fa-star"></i>{singleSpot.avgRating}</div>
+            <li
+              className="second-row-item-underline"
+            >
+              <OpenModalMenuItem
+                itemText={`${Object.keys(spotReviews).length} reviews`}
+                modalComponent={<SpotReviewsModal />}
+              />
+            </li>
+            <div className="second-row-item-underline">{singleSpot.city}, {singleSpot.state}, {singleSpot.country}</div>
+          </div>
+        </div>
+        <div className="spotshow-host-actions">
+          {currentUser && currentUser.id === singleSpot.Owner.id &&
+            <>
+              <NavLink className="spotshow-edit-spot-button" exact to={`/spots/${singleSpot.id}/edit`}><i className="fa-solid fa-pen-to-square"></i>Edit</NavLink>
+              <NavLink className="spotshow-delete-spot-button" exact to={`/spots/${singleSpot.id}/delete`}><i className="fa-solid fa-trash"></i>Delete</NavLink>
+            </>
+          }
+        </div>
       </div>
       {singleSpot && singleSpot.SpotImages && singleSpot.SpotImages.length > 0 &&
         <img
           className='first-img'
           src={`${singleSpot.SpotImages[0].url}`}
-          alt={singleSpot.SpotImages[0].url}
+          alt={"https://www.myaglender.com/assets/images/processed/NoCrop_2560x2560/292-framing-of-house-under-construction.png"}
         />
       }
-      <div className="hosted-by">hosted by {singleSpot.Owner.firstName}</div>
-      {currentUser && currentUser.id === singleSpot.Owner.id &&
-        <div className="spotshow-host-actions">
-          <NavLink className="spotshow-edit-spot-button" exact to={`/spots/${singleSpot.id}/edit`}>Edit Listing</NavLink>
-          <NavLink className="spotshow-delete-spot-button" exact to={`/spots/${singleSpot.id}/delete`}>Delete Listing</NavLink>
+      <div className="bottom-half">
+        <div className="left-half">
+          <div className="hosted-by">Listing hosted by {singleSpot.Owner.firstName}</div>
+          <div className="spot-description">{singleSpot.description}</div>
         </div>
-      }
+        <div className="right-half">
+          <div className="spotshow-pricecard">
+            <div className="pricecard-header-left">
+              <div className="pricecard-header-price"><strong>${singleSpot.price}</strong> night</div>
+            </div>
+            <div className="pricecard-header-right">
+              <div className="second-row-item"><i className="fa-solid fa-star"></i>{singleSpot.avgRating}</div>
+              <li
+                className="second-row-item-underline"
+              >
+                <OpenModalMenuItem
+                  itemText={`${Object.keys(spotReviews).length} reviews`}
+                  modalComponent={<SpotReviewsModal />}
+                />
+              </li>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="reviews-container">
         <div className="reviews-container-header">
           <i className="fa-solid fa-star"></i>
-          <div className="avg-star-rating">{singleSpot.avgStarRating}</div>
-          <div className="number-of-reviews">{singleSpot.numReviews} reviews</div>
+          <div className="avg-star-rating">  {singleSpot.avgRating}</div>
+          <li className="number-of-reviews">{Object.keys(spotReviews).length} reviews</li>
         </div>
         <div className="reviews-list">
           {firstSixReviews.map((review) => (
             <ReviewCard key={`${review.id}-first-six`} user={currentUser} review={review} inModal={false} />
           ))
           }
-          <OpenModalMenuItem
-            itemText={`Show all ${singleSpot.numReviews} reviews`}
-            modalComponent={<SpotReviewsModal />}
-          />
-          {showReviewButton &&
+        </div>
+        <div id="spot-buttons">
+          <div id="show-all-reviews-button">
             <OpenModalMenuItem
-              itemText={`Create a review for this listing`}
-              modalComponent={<CreateReviewModal />}
+              itemText={`Show all ${Object.keys(spotReviews).length} reviews`}
+              modalComponent={<SpotReviewsModal />}
             />
+          </div>
+          {showReviewButton &&
+            <div id="create-review">
+              <OpenModalMenuItem
+                itemText={`Create a review for this listing`}
+                modalComponent={<CreateReviewModal />}
+              />
+            </div>
           }
         </div>
       </div>
