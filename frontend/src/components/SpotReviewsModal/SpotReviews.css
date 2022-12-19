@@ -1,0 +1,46 @@
+.spot-review-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 2em;
+
+}
+
+.spot-review-modal-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 2em;
+}
+
+.modal-heading-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  font-size: 16px;
+  padding-left: 1.5em;
+}
+
+.modal-avg-star-rating {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#modal-dot {
+  width: .35em;
+}
+
+.modal-card {
+  padding-top: 1.8em;
+  padding-left: 1.8em;
+  padding-right: 1.8em;
+}
+
+.modal-card-date {
+  color: grey;
+  font-size: 10px;
+  margin-bottom: 1.8em;
+}

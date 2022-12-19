@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
-import SpotReviewsModal from '../SpotReviewsModal';
+// import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+// import SpotReviewsModal from '../SpotReviewsModal';
 import { removeSpotReview } from '../../store/reviews';
 import './ReviewCard.css';
 // 183 > gets abbreviated if it's not in the modal;
@@ -42,8 +42,8 @@ const ReviewCard = ({ user, review, inModal }) => {
             </div>
           </div>
           <div className="modal-header-buttons">
-            {user && review.User.id === user.id &&
-              <div>Buttons to Edit and Delete will go here</div>
+            {user && review.userId === user.id &&
+              <div onClick={handleDelete} className="delete-spot-button"><i className="fa-solid fa-trash"></i>Delete</div>
             }
           </div>
         </div>
@@ -68,8 +68,8 @@ const ReviewCard = ({ user, review, inModal }) => {
             </div>
           </div>
           <div className="preview-header-buttons">
-            {user && review.User.id === user.id &&
-              <div onClick={handleDelete} className="delete-spot-button">Delete</div>
+            {user && review.userId === user.id &&
+              <div onClick={handleDelete} className="delete-spot-button"><i className="fa-solid fa-trash"></i>Delete</div>
             }
           </div>
         </div>
@@ -84,10 +84,11 @@ const ReviewCard = ({ user, review, inModal }) => {
               <div className="preview-text-display">
                 {review.review.slice(0, 182)}...
               </div>
-              <OpenModalMenuItem
+              {/* <OpenModalMenuItem
+                className="hellooo"
                 itemText="Show more"
                 modalComponent={<SpotReviewsModal />}
-              />
+              /> */}
             </div>
           }
         </div>

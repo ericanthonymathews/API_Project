@@ -1,0 +1,15 @@
+.spot-index {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  row-gap: 2em;
+  column-gap: 2em;
+  margin-top: 6em;
+  justify-content: flex-start;
+
+}
+
+.spot-index>* {
+  flex-shrink: .5;
+}

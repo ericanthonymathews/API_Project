@@ -176,9 +176,9 @@ router.get(
         totalStars += review.stars;
       });
       if (totalStars) {
-        spot.avgRating = numberOfReviews / totalStars;
+        spot.avgRating = (totalStars / numberOfReviews).toFixed(2);
       } else {
-        spot.avgRating = 'N/A';
+        spot.avgRating = null;
       }
       delete spot.Reviews;
     });
@@ -266,9 +266,9 @@ router.get(
         totalStars += review.stars;
       });
       if (numberOfReviews) {
-        spot.avgRating = numberOfReviews / totalStars;
+        spot.avgRating = (totalStars / numberOfReviews).toFixed(2);
       } else {
-        spot.avgRating = 'N/A';
+        spot.avgRating = null;
       }
       delete spot.Reviews;
     });
@@ -317,7 +317,7 @@ router.get('/:spotId', async (req, res) => {
     totalStars += review.stars;
   });
   if (numberOfReviews) {
-    spot.avgRating = numberOfReviews / totalStars;
+    spot.avgRating = (totalStars / numberOfReviews).toFixed(2);
     spot.numReviews = numberOfReviews;
   } else {
     spot.avgRating = 'N/A';

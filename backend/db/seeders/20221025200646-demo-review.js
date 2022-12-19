@@ -25,13 +25,13 @@ module.exports = {
       },
       {
         spotId: 2,
-        userId: 2,
+        userId: 3,
         review: 'Could see myself living here. Had a blast',
         stars: 4
       },
       {
         spotId: 2,
-        userId: 1,
+        userId: 4,
         review: 'Did not sleep. The bed. OMG who lives here?',
         stars: 1
       },

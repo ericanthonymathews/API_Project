@@ -1,5 +1,103 @@
+#nav-bar-container {
+  width: 100%;
+  padding-left: 5em;
+  padding-right: 5em;
+  height: 5em;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.splitter {
+  border-bottom: 1px rgb(238, 236, 236) solid;
+  width: 100%;
+}
+
+#profile-button-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-right: 0;
+}
+
+#profile-button {
+  border: 1px rgb(238, 236, 236) solid;
+  padding-top: 0.001em;
+  padding-bottom: 0;
+  padding-left: .25em;
+  padding-right: .05em;
+  border-radius: 38% 38% 38% 38%;
+}
+
 .profile-dropdown {
+  width: 13em;
+  display: flex;
+  flex-direction: column;
+  padding-right: 0;
+  padding-left: 0;
+  align-items: left;
+  background-color: white;
   position: absolute;
+  top: .4em;
+  right: .2em;
+  border-radius: 14px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+ul.profile-dropdown:first-child {
+  font-weight: bold;
+}
+
+.profile-dropdown-button {
+  display: inline;
+  cursor: pointer;
+  text-align: left;
+  padding: 1em;
+}
+
+.profile-dropdown-info {
+  display: inline;
+  text-align: left;
+  padding: 1em;
+}
+
+.logo-img-container {
+  display: flex;
+  flex-direction: row;
+  height: 3em;
+  align-items: center;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#home-button {
+  height: 2em;
+}
+
+#home-button-logo {
+  object-fit: cover;
+}
+
+#demo-button {
+  border-top: 1px lightgrey solid;
+}
+
+#logout-button {
+  border-top: 1px lightgrey solid;
+  text-decoration: none;
+  color: black;
+}
+
+#title {
+  color: red;
+  text-decoration: none;
 }
 
 .hidden {

@@ -24,7 +24,7 @@ module.exports = {
         price: 200.00
       },
       {
-        ownerId: 3,
+        ownerId: 2,
         address: '4 Privet Dr.',
         city: 'Little Whinging',
         state: 'Surrey',
@@ -36,7 +36,7 @@ module.exports = {
         price: 250.00
       },
       {
-        ownerId: 2,
+        ownerId: 3,
         address: '344 Clinton St.',
         city: 'Metropolis',
         state: 'New York',
@@ -48,7 +48,7 @@ module.exports = {
         price: 100.00
       },
       {
-        ownerId: 2,
+        ownerId: 4,
         address: '344 11th St.',
         city: 'Brooklyn',
         state: 'New York',
@@ -60,7 +60,7 @@ module.exports = {
         price: 100.00
       },
       {
-        ownerId: 1,
+        ownerId: 5,
         address: '123 Sumplace Rd.',
         city: 'New York',
         state: 'New York',

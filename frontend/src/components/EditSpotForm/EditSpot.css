@@ -1,0 +1,42 @@
+.edit-spot-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#edit-spot-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-spot-input {
+  height: 5em;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px rgb(238, 236, 236) solid;
+}
+
+.form-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+}
+
+#back-arrow {
+  color: black;
+}
+
+.spot-form-button {
+  background-color: rgb(227, 28, 95);
+  color: white;
+  border: none;
+  width: 80%;
+  height: 5em;
+  margin: 5em;
+  border-radius: 10px;
+}

@@ -8,17 +8,23 @@ const SpotsIndexItem = ({ spot }) => {
         to={`/spots/${spot.id}`}
         className="spot-index-item-navlink"
       >
-        <img
-          className="spots-card-image"
-          src={`${spot.previewImage}`}
-          alt="Spot Preview"
-        />
-        <div className="spots-location">{spot.city}, {spot.state}</div>
-        <div className="spots-avg-rating-container">
-          <i className="fa-solid fa-star"></i>
-          <div className="spots-avg-rating">{spot.avgRating}</div>
+        <div className="spots-card-image-container">
+          <img
+            className="spots-card-image"
+            src={`${spot.previewImage}`}
+            alt="https://www.myaglender.com/assets/images/processed/NoCrop_2560x2560/292-framing-of-house-under-construction.png"
+          />
         </div>
-        <div className="price">${spot.price} Night</div>
+        <div className="location-and-rating">
+          <div className="spots-location"><b>{spot.city}, {spot.state}</b></div>
+          {spot.avgRating &&
+            <div className="spots-avg-rating-container">
+              <i className="fa-solid fa-star"></i>
+              <div className="spots-avg-rating">{spot.avgRating}</div>
+            </div>
+          }
+        </div>
+        <div className="price"><strong>${spot.price}</strong> night</div>
       </NavLink>
     </div>
   )

@@ -19,6 +19,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <div className="splitter"></div>
       {isLoaded && (
         <Switch>
           <Route exact path="/" component={SpotsIndex} />
