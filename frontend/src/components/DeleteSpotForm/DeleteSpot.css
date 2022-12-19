@@ -1,0 +1,45 @@
+.delete-spot-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  padding-top: 4em;
+}
+
+.delete-spot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.delete-spot-cancel {
+  margin: 1em;
+  text-decoration: none;
+  color: black;
+  border-radius: 10px;
+  padding: 1.8em;
+  width: 80%;
+  border: 1px black solid;
+  font-style: none;
+  text-align: center;
+  vertical-align: center;
+  cursor: pointer;
+  border: none;
+  color: white;
+  background-color: rgb(227, 28, 95);
+}
+
+.delete-spot-confirm {
+  margin: 1em;
+  border-radius: 10px;
+  padding: 1.8em;
+  width: 80%;
+  border: none;
+  color: white;
+  background-color: rgb(227, 28, 95);
+  font-style: none;
+  text-align: center;
+  vertical-align: center;
+  cursor: pointer;
+}
