@@ -17,19 +17,19 @@ function LoginFormModal() {
     setErrors([]);
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
-      .catch(
-        async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        }
-      );
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(Object.values(data.errors));
+      });
   };
 
   return (
     <>
       <div className="modal-title-container">
         <i className="fa-solid fa-xmark" onClick={closeModal}></i>
-        <div className="modal-title"><b>Log In</b></div>
+        <div className="modal-title">
+          <b>Log In</b>
+        </div>
         <div></div>
       </div>
       <form className="full-form" onSubmit={handleSubmit}>
@@ -56,7 +56,9 @@ function LoginFormModal() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button className="modal-bottom-button" type="submit">Log In</button>
+        <button className="modal-bottom-button" type="submit">
+          Log In
+        </button>
       </form>
     </>
   );
