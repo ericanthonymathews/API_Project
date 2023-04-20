@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from "react-router-dom";
 import { createSpot } from "../../store/spots";
 import { useDispatch } from "react-redux";
 // import { useModal } from "../../context/Modal";
@@ -21,8 +21,6 @@ function CreateSpotForm() {
   const [errors, setErrors] = useState([]);
   // const { closeModal } = useModal();
 
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -35,23 +33,19 @@ function CreateSpotForm() {
       lng,
       name,
       description,
-      price
+      price,
     };
 
     return dispatch(createSpot(newSpot, url))
-      .then(
-        async (data) => {
-          if (data.id) {
-            history.push(`/spots/${data.id}`);
-          }
+      .then(async (data) => {
+        if (data.id) {
+          history.push(`/spots/${data.id}`);
         }
-      )
-      .catch(
-        async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(data.errors);
-        }
-      );
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(Object.values(data.errors));
+      });
   };
 
   useEffect(() => {
@@ -61,11 +55,11 @@ function CreateSpotForm() {
   }, [url]);
 
   return (
-    <div
-      className="create-spot-form"
-    >
+    <div className="create-spot-form">
       <div className="create-form-header">
-        <NavLink exact to={`/`}><i id="back-arrow" className="fa-solid fa-arrow-left"></i></NavLink>
+        <NavLink exact to={`/`}>
+          <i id="back-arrow" className="fa-solid fa-arrow-left"></i>
+        </NavLink>
         <h1>Host an Experience</h1>
         <div></div>
       </div>
@@ -86,7 +80,6 @@ function CreateSpotForm() {
           required
         />
 
-
         <input
           className="create-spot-input"
           type="text"
@@ -95,7 +88,6 @@ function CreateSpotForm() {
           onChange={(e) => setCity(e.target.value)}
           required
         />
-
 
         <input
           className="create-spot-input"
@@ -169,7 +161,9 @@ function CreateSpotForm() {
           onChange={(e) => setUrl(e.target.value)}
           required
         />
-        <button className="create-spot-form-button" type="submit">Create Spot</button>
+        <button className="create-spot-form-button" type="submit">
+          Create Spot
+        </button>
       </form>
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 // import { useParams } from 'react-router-dom';
 import { useModal } from "../../context/Modal";
-import { createReview } from '../../store/reviews';
-import './CreateReview.css';
+import { createReview } from "../../store/reviews";
+import "./CreateReview.css";
 
 function CreateReviewModal() {
   const spot = useSelector((state) => state.spots.singleSpot);
@@ -20,37 +20,32 @@ function CreateReviewModal() {
     let user = {
       id: currentUser.id,
       firstName: currentUser.firstName,
-      lastName: currentUser.lastName
-
-    }
+      lastName: currentUser.lastName,
+    };
     let newReview = {
       review,
-      stars
+      stars,
     };
 
     return dispatch(createReview(newReview, spot.id, user))
-      .then(
-        async (data) => {
-          if (data.id) {
-            closeModal();
-          }
+      .then(async (data) => {
+        if (data.id) {
+          closeModal();
         }
-      )
-      .catch(
-        async (res) => {
-          const data = await res.json();
-          if (data && data.errors) setErrors(Object.values(data.errors));
-        }
-      )
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(Object.values(data.errors));
+      });
   };
-
-
 
   return (
     <div className="create-review-form">
       <div className="modal-title-container">
         <i className="fa-solid fa-xmark" onClick={closeModal}></i>
-        <div className="modal-title"><b>Sign Up</b></div>
+        <div className="modal-title">
+          <b>Sign Up</b>
+        </div>
         <div></div>
       </div>
       <form id="create-review-form" onSubmit={handleSubmit}>
@@ -77,11 +72,12 @@ function CreateReviewModal() {
           onChange={(e) => setReview(e.target.value)}
           required
         />
-        <button className="modal-bottom-button" type="submit">Create Review</button>
+        <button className="modal-bottom-button" type="submit">
+          Create Review
+        </button>
       </form>
     </div>
-  )
-
+  );
 }
 
 export default CreateReviewModal;
